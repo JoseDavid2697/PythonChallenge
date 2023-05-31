@@ -37,16 +37,27 @@ def aligment(sequence1:str, sequence2:str):
             # addition
             if i == 0 and j == 0:
                 # diagonal
-                result = value
+                result = 0 + value
                 listOfValues.append(result)
                 # right
-                result = 0 + -2
+                result = 0 + GAP
                 listOfValues.append(result)
                 # down 
-                result = 0 + -2
+                result = 0 + GAP
                 listOfValues.append(result)
                 # add the max to the list
                 MATRIX[i][j] = max(listOfValues)
+            
+            # ---------------------------------
+
+            # diagonal
+            if j == 0:
+                result = 0 + value
+            else: 
+                result = MATRIX[i-1][j-1] + value
+            
+            # right 
+            
             
             
 
