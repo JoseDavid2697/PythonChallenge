@@ -1,15 +1,18 @@
 # Logic to solve the aligment
 # according to the Neddleman-Wunsch algorithm
 
+import sys
+
 # Initialize variables
 # --------------------
 SAME = 2 # diagonal
 DIFF = -1 # diagonal
 GAP = -2 # down - right
-
+MATRIX = []
 #---------------------
 
-def aligment(sequence1:str, sequence2:str):
+def fillMatrix(sequence1:str, sequence2:str):
+    global MATRIX
     x = len(sequence2)
     y = len(sequence1)
     s1 = []
@@ -21,46 +24,38 @@ def aligment(sequence1:str, sequence2:str):
         s2.append(letter)
 
     #starting matrix with in wich values are going to be inserted 
-    MATRIX = [[0 for i in range(y)] for j in range(x)]
+    MATRIX = [[0 for i in range(y+1)] for j in range(x+1)]
 
     # comparison values
-    for i in range(x):
+    for r in range(1, x+1):
         listOfValues = []
         value = 0
         result = 0
-        for j in range(y):
-            if s2[i] == s1[j]:
+        for c in range(1, y+1):
+            if s2[r-1] == s1[c-1]:
                 value = SAME
             else:
                 value = DIFF
             
             # addition
-            if i == 0 and j == 0:
-                # diagonal
-                result = 0 + value
-                listOfValues.append(result)
-                # right
-                result = 0 + GAP
-                listOfValues.append(result)
-                # down 
-                result = 0 + GAP
-                listOfValues.append(result)
-                # add the max to the list
-                MATRIX[i][j] = max(listOfValues)
-            
-            # ---------------------------------
+            #
+            # diagonal 
+            result = MATRIX[r-1][c-1] + value
+            listOfValues.append(result)
+            # right
+            result = MATRIX[r][c-1] + GAP
+            listOfValues.append(result)
+            # down
+            result = MATRIX[r-1][c] + GAP
+            listOfValues.append(result)
 
-            # diagonal
-            if j == 0:
-                result = 0 + value
-            else: 
-                result = MATRIX[i-1][j-1] + value
-            
-            # right 
-            
-            
-            
+            MATRIX[r][c] = max(listOfValues)
+            listOfValues = []
+        
 
+def aligment(sequence1:str, sequence2:str):
+    #print matrix
+    fillMatrix(sequence1, sequence2)
     for line in MATRIX:
         print(line)
     
