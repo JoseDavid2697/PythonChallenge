@@ -32,19 +32,20 @@ s2 = ""
 # funtions
 # received the copied entry as input
 def getInput():
+    global s1, s2
     clear()
     print("Please provide the first sequence (you can paste it with CTRL+V)")
-    sequence1 = str(input())
+    s1 = str(input())
     print("Please provide the second sequence (you can paste it with CTRL+V)")
-    sequence2 = str(input())
-    equals = sequencesValidator(sequence1, sequence2)
+    s2 = str(input())
+    equals = sequencesValidator(s1, s2)
     while equals != True:
         print("----- WARNING ----- \n Make sure sequences have the same type")
         print("Please provide the first sequence (you can paste it with CTRL+V)")
-        sequence1 = str(input())
+        s1 = str(input())
         print("Please provide the second sequence (you can paste it with CTRL+V)")
-        sequence2 = str(input())
-        equals = sequencesValidator(sequence1, sequence2)
+        s2 = str(input())
+        equals = sequencesValidator(s1, s2)
     
     return True
 
@@ -72,6 +73,7 @@ while option != 0:
         #do option 1
         if getInput():
             print("Aligning please wait...")
+            aligment(s1, s2)
 
     elif option == 2:
         #do option 2

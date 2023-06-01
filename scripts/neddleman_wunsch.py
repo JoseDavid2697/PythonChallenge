@@ -9,14 +9,80 @@ SAME = 2 # diagonal
 DIFF = -1 # diagonal
 GAP = -2 # down - right
 MATRIX = []
+s1 = []
+s2 = []
 #---------------------
+
+def traceback():
+    global MATRIX
+    global s1
+    global s2
+    
+    # loop matrix
+    x = len(s2)
+    y = len(s1)
+
+    # r, c define rows and colums so the last value of the MATRIX is M[r][c]
+    r = x
+    c = y
+    run = True
+    output = ""
+    while run:
+        if r >= 1 and c >= 1:
+            # get neighbours values
+            listN = []
+            upperN = MATRIX[r-1][c]
+            listN.append(upperN)
+            leftN = MATRIX[r][c-1]
+            listN.append(leftN)
+            diagonalN = MATRIX[r-1][c-1]
+            listN.append(diagonalN)
+            # compare values
+            if s1[y-1] == s2[x-1]:
+                # move in diagonal
+                output = str(s1[y-1]) + "\n" + "|" + "\n" + s2[x-1] + "\n" + output
+                r -= 1
+                c -= 1
+                x -= 1
+                y -= 1
+            else:
+                # look for max value
+                maxValue = max(listN)
+                if diagonalN == maxValue:
+                    #move diagonal
+                    output = str(s1[y-1]) + "\n" + " " + "\n" + s2[x-1] + "\n" + output
+                    r -= 1
+                    c -= 1
+                    x -= 1
+                    y -= 1
+                elif leftN == maxValue:
+                    #move left
+                    output = str(s1[y-1]) + "\n" + " " + "\n" + "_" + "\n" + output
+                    c -= 1
+                    y -= 1
+                elif upperN == maxValue:
+                    #move upper
+                    output = "_" + "\n" + " " + "\n" + s2[x-1] + "\n" + output
+                    r -= 1
+                    x -= 1
+        else:
+            run = False     
+    print(output)
+            
+        
+            
+
 
 def fillMatrix(sequence1:str, sequence2:str):
     global MATRIX
+    global s1
+    global s2
     x = len(sequence2)
     y = len(sequence1)
-    s1 = []
-    s2 = []
+
+    print("Llego")
+    print(sequence1)
+    print(sequence2)
 
     for letter in sequence1:
         s1.append(letter)
@@ -58,4 +124,6 @@ def aligment(sequence1:str, sequence2:str):
     fillMatrix(sequence1, sequence2)
     for line in MATRIX:
         print(line)
+    
+    traceback()
     
