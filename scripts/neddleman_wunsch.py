@@ -11,16 +11,24 @@ GAP = -2 # down - right
 MATRIX = []
 s1 = []
 s2 = []
+sequenceLength = 0
+equalsResidue = 0
+sequenceIdentity = 0
 #---------------------
 
 def traceback():
     global MATRIX
     global s1
     global s2
-    
+    global equalsResidue
+    global sequenceLength
+    global sequenceIdentity
     # loop matrix
     x = len(s2)
     y = len(s1)
+    upperList = []
+    middleList = []
+    lowerList = []
 
     # r, c define rows and colums so the last value of the MATRIX is M[r][c]
     r = x
@@ -38,36 +46,50 @@ def traceback():
             diagonalN = MATRIX[r-1][c-1]
             listN.append(diagonalN)
             # compare values
+            # if values are equal
             if s1[y-1] == s2[x-1]:
                 # move in diagonal
-                output = str(s1[y-1]) + "\n" + "|" + "\n" + s2[x-1] + "\n" + output
+                upperList.append(str(s1[y-1]))
+                middleList.append("|")
+                lowerList.append(str(s2[x-1]))
                 r -= 1
                 c -= 1
                 x -= 1
                 y -= 1
+                equalsResidue += 1
             else:
                 # look for max value
                 maxValue = max(listN)
                 if diagonalN == maxValue:
                     #move diagonal
-                    output = str(s1[y-1]) + "\n" + " " + "\n" + s2[x-1] + "\n" + output
+                    upperList.append(str(s1[y-1]))
+                    middleList.append(" ")
+                    lowerList.append(str(s2[x-1]))
                     r -= 1
                     c -= 1
                     x -= 1
                     y -= 1
                 elif leftN == maxValue:
                     #move left
-                    output = str(s1[y-1]) + "\n" + " " + "\n" + "_" + "\n" + output
+                    upperList.append(str(s1[y-1]))
+                    middleList.append(" ")
+                    lowerList.append("_")
                     c -= 1
                     y -= 1
                 elif upperN == maxValue:
                     #move upper
                     output = "_" + "\n" + " " + "\n" + s2[x-1] + "\n" + output
+                    upperList.append("_")
+                    middleList.append(" ")
+                    lowerList.append(str(s2[x-1]))
                     r -= 1
                     x -= 1
         else:
-            run = False     
-    print(output)
+            run = False    
+    print("==============================================") 
+    print(upperList)
+    print(middleList)
+    print(lowerList)
             
         
             
@@ -80,7 +102,6 @@ def fillMatrix(sequence1:str, sequence2:str):
     x = len(sequence2)
     y = len(sequence1)
 
-    print("Llego")
     print(sequence1)
     print(sequence2)
 
@@ -126,4 +147,5 @@ def aligment(sequence1:str, sequence2:str):
         print(line)
     
     traceback()
+    print(equalsResidue)
     
